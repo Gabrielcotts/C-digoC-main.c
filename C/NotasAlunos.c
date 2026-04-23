@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <conio.h>
 #include <string.h>
-
+int main(){
 	
  float nota;
 	printf("Digite sua nota: ");
