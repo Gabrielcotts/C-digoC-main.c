@@ -3,8 +3,6 @@
 #include <string.h>
 
 int main(){
-	
-	te de impar ou par em C
 
 int num9 = 0;
 
