@@ -3,8 +3,6 @@
 #include <string.h>
 
 int main(){
-	
-menu calculadora: 
 
     int opcao;
     float equacao1;
