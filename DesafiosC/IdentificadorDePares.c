@@ -1,43 +1,27 @@
+
 #include <stdio.h>
 #include <conio.h>
 
+int num1, num2;
+int i = 0;
+int cont = 0;
+
 int main(){
-float notaDeLogica, notaDeBanco, notaDeEngenharia;
+printf("--- DIGITE A SEGUIR, DOIS NUMEROS INTEIROS ---\n");
+printf("Digite o numero de inicio (menor valor):\n");
+scanf("%d", &num1);
 
-printf("Digite sua nota de logica de programacao (0 a 10):\n");
-scanf("%f", &notaDeLogica);
+printf("Digite o numero final (maior valor):\n");
+scanf("%d", &num2);
 
-if (notaDeLogica < 0 || notaDeLogica > 10){
-	printf("Nota invalida!");
+printf("Numeros pares encontrados:");
+
+for (i = num1; i <= num2; i++){
+	if(i % 2 == 0){
+	printf("%d ", i);
+	cont++;
+		}
+	}
+	printf("\nTotal de pares: %d\n", cont);	
 	return 0;
-}
-
-printf("Digite sua nota de banco de dados(0 a 10):\n");
-scanf("%f", &notaDeBanco);
-
-if(notaDeBanco < 0 || notaDeBanco > 10){
-	printf("Nota invalida!");
-	return 0;
-}
-
-printf("Digite sua nota de engenharia de software (0 a 10):\n");
-scanf("%f", &notaDeEngenharia);
-
-  if (notaDeEngenharia < 0 || notaDeEngenharia > 10){
-printf("Nota invalida!");
-return 0;
-}
-
-float media = (notaDeLogica + notaDeBanco + notaDeEngenharia)/3;
-printf("\nMedia: %.2f\n", media);
-
-if(media >= 7){
-printf("Aprovado!\n");
-
-} else if (media >= 5 ){
-printf("Recuperacao!\n");
-	 } else  {
-printf("Reprovado!");
-}
-return 0 ;
 }
