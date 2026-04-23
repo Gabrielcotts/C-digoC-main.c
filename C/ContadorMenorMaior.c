@@ -3,9 +3,6 @@
 #include <string.h>
 
 int main(){
-	
-Contador do menor para o maior :
-
 
  int num = 0;
 
