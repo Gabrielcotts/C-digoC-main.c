@@ -1,0 +1,23 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <conio.h>
+
+int main(){
+	
+int c;
+FILE *pa;
+char *nome = "arquivo.txt";
+
+if (( pa = fopen(nome, "r")) == NULL) {
+printf("\n\nNao foi possivel abrir o arquivo.\n");
+exit(1);
+}
+printf("\nImprimindo...\n");
+c = fgetc(pa);
+while (!feof(pa)) {
+putchar(c);
+c = fgetc(pa);
+}
+fclose(pa);
+getchar(); 
+}
