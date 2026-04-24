@@ -1,0 +1,26 @@
+#include <stdio.h>
+
+
+	void incrementa_valor(int n){
+	 n = n + 1;
+	printf("Valor de x dentro da funcao: %d\n", n);
+	}
+	
+	void incrementa_referencia(int *n){
+	*n = *n + 1;
+	printf("valor de y da funcao", n);
+}
+	
+	
+	int main(){
+		int x = 5;
+		int y = 5;
+		
+	printf("Valor de x antes = %d\n", x);
+	incrementa_valor(x);
+	printf("Valor de x depois = %d\n", x);
+	
+	printf("Valor de y antes = %d\n", y);
+	incrementa_referencia(y);
+	printf("Valor de y depois = %d\n", y);
+	}
