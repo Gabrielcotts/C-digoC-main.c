@@ -1,0 +1,39 @@
+#include <stdio.h>
+
+int main(void){
+	
+char url[]="Cadastro.txt";
+
+char nome[100], endereco[100];
+
+int telefone, ra;
+
+FILE *arq;
+arq = fopen(url, "w");
+
+if(arq == NULL)
+    printf("Erro, nao foi possivel abrir o arquivo\n");
+else{
+	
+    printf("Nome: ");
+    scanf(" %[^\n]", nome);
+
+    printf("Endereco: ");
+    scanf(" %[^\n]", endereco);
+
+    fprintf(arq, "Endereco: %s\n", endereco);
+
+    printf("Telefone: ");
+    scanf("%d", &telefone);
+
+    fprintf(arq, "telefone: %d\n", telefone);
+
+    printf("RA: ");
+    scanf("%d", &ra);
+
+    fprintf(arq, "RA: %d\n", ra);
+}
+
+fclose(arq);
+return 0;
+}
