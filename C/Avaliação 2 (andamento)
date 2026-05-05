@@ -8,38 +8,49 @@
 	char autor[50];
 	int status;
 	
-	int livro;
+	int livro = 0;
+	int opcao = -1;
+	
+	
+void cadastrarLivro();
+void consultarLivro();
+void emprestarLivro();
+void devolverLivro();
+void listarLivro();
 
 int main(){
 	
-	int opcao = 0;
-	
-	
-	
 	while(opcao != 0){
 		printf("====BIBLIOTECA====\n");
-		printf("1 - Cadastrar livro");
-		printf("2 - Consultar livro");
-		printf("3 - Emprestar livro");
-		printf("4 - Devolver livro");
-		printf("5 - Listar livro");
-		printf("0 - Sair");
+		printf("1 - Cadastrar livro\n");
+		printf("2 - Consultar livro\n");
+		printf("3 - Emprestar livro\n");
+		printf("4 - Devolver livro\n");
+		printf("5 - Listar livro\n");
+		printf("0 - Sair\n");
 		
+		scanf("%d", &opcao);
 		
 		switch (opcao) {
 
         case 1:
-            
-			printf("Digite o nome do livro: ");
+           cadastrarLivro();
             break;
 
         case 2:
-        	printf("");
-   		     scanf("");
+         consultarLivro();
             break;
         case 3:
-            printf("");
-               scanf("");
+         emprestarLivro();
+                break;
+        case 4:
+            devolverLivro();
+                break;
+         case 5:
+            listarLivro();
+                break;        
+         case 0:
+            printf("Encerrando atendimento...");
                 break;
                 
         default:
@@ -51,32 +62,46 @@ int main(){
 }
 
 void cadastrarLivro( ){
-	if(livro <= maximo){
+	if(livro >= maximo){
 		printf("Limite máximo de livros cadastrados!");
 		return;
 	}
 	
-	printf("Digite as informações do livro: ");
+	printf("Digite as informacoes do livro:\n");
 	
-	printf("Código do livro: " );
-	scanf("%d", codigoLivro); 
+	printf("Codigo do livro:\n" );
+	scanf("%s", &codigoLivro); 
 	
-	printf("Título: ");
-	scanf("%s", titulo);
+	printf("Titulo:\n");
+	scanf("%s", &titulo);
 	
 	printf("Autor: ");
-	printf("%s", autor);
+	printf("%s", &autor);
 	
-	printf("Livro cadastrado com sucesso!");
+	printf("Livro cadastrado com sucesso!\n");
 }
 
 void consultarLivro(){
 	
-	printf("Digite o título do livro: ");
-	scanf("%s", titulo);
+	printf("Digite o título do livro:");
+	scanf("%s", &titulo);
 	
-
+return;
 }
 
+void emprestarLivro(){
+	
+printf("");
+return;
+}
 
+void devolverLivro(){
+	printf(" ");
+	scanf("%s", devolverLivro);
+}
+
+void listarLivro(){
+		printf("Digite o título do livro: ");
+	scanf("%s", titulo);
+}
 
