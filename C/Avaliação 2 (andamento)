@@ -1,17 +1,15 @@
 #include <stdio.h>
 
+int maximo = 50;
 
-	int maximo = 50;
+int codigoLivro;
+char titulo[50];
+char autor[50];
+int status;
 
-	int codigoLivro;
-	char titulo[50];
-	char autor[50];
-	int status;
-	
-	int livro = 0;
-	int opcao = -1;
-	
-	
+int livro = 0;
+int opcao = -1;
+
 void cadastrarLivro();
 void consultarLivro();
 void emprestarLivro();
@@ -19,89 +17,93 @@ void devolverLivro();
 void listarLivro();
 
 int main(){
-	
-	while(opcao != 0){
-		printf("\n====BIBLIOTECA====\n");
-		printf("1 - Cadastrar livro\n");
-		printf("2 - Consultar livro\n");
-		printf("3 - Emprestar livro\n");
-		printf("4 - Devolver livro\n");
-		printf("5 - Listar livro\n");
-		printf("0 - Sair\n");
-		
-		scanf("%d", &opcao);
-		
-		switch (opcao) {
+
+    while(opcao != 0){
+        printf("\n====BIBLIOTECA====\n");
+        printf("1 - Cadastrar livro\n");
+        printf("2 - Consultar livro\n");
+        printf("3 - Emprestar livro\n");
+        printf("4 - Devolver livro\n");
+        printf("5 - Listar livro\n");
+        printf("0 - Sair\n");
+
+        scanf("%d", &opcao);
+
+        switch (opcao) {
 
         case 1:
-           cadastrarLivro();
+            cadastrarLivro();
             break;
 
         case 2:
-         consultarLivro();
+            consultarLivro();
             break;
+
         case 3:
-         emprestarLivro();
-                break;
+            emprestarLivro();
+            break;
+
         case 4:
             devolverLivro();
-                break;
-         case 5:
+            break;
+
+        case 5:
             listarLivro();
-                break;        
-         case 0:
-            printf("Encerrando atendimento...");
-                break;
-                
+            break;
+
+        case 0:
+            printf("Encerrando atendimento...\n");
+            break;
+
         default:
             printf("Opcao invalida!\n");
-    	}
-	}
-   return 0;
-   
+        }
+    }
+    return 0;
 }
 
-void cadastrarLivro( ){
-	if(livro >= maximo){
-		printf("Limite máximo de livros cadastrados!");
-		return;
-	}
-	
-	printf("Digite as informacoes do livro:\n");
-	
-	printf("Codigo do livro:\n" );
-	scanf("%s", &codigoLivro); 
-	
-	printf("Titulo:\n");
-	scanf("%s", &titulo);
-	
-	printf("Autor: ");
-	printf("%s", &autor);
-	
-	printf("Livro cadastrado com sucesso!\n");
+void cadastrarLivro(){
+
+    if(livro >= maximo){
+        printf("Limite máximo de livros cadastrados!\n");
+        return;
+    }
+
+    printf("Digite as informacoes do livro:\n");
+
+    printf("Codigo do livro:\n");
+    scanf("%d", &codigoLivro);
+
+    printf("Titulo:\n");
+    scanf(" %[^\n]", titulo);
+
+    printf("Autor:\n");
+    scanf(" %[^\n]", autor);
+
+    status = 0;
+
+    printf("Livro cadastrado com sucesso!\n");
+
+    livro++; 
 }
 
 void consultarLivro(){
-	
-	printf("Digite o título do livro:");
-	scanf("%s", &titulo);
-	
-return;
+
+    printf("Digite o titulo do livro:\n");
+    scanf(" %[^\n]", titulo);
+
+    printf("Consultando: %s\n", titulo);
 }
 
 void emprestarLivro(){
-	
-printf("");
-return;
+    printf("Livro emprestado!\n");
 }
 
 void devolverLivro(){
-	printf(" ");
-	scanf("%s", devolverLivro);
+    printf("Livro devolvido!\n");
 }
 
 void listarLivro(){
-		printf("Digite o título do livro: ");
-	scanf("%s", titulo);
+    printf("Titulo: %s\n", titulo);
+    printf("Autor: %s\n", autor);
 }
-
