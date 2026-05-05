@@ -21,7 +21,7 @@ void listarLivro();
 int main(){
 	
 	while(opcao != 0){
-		printf("====BIBLIOTECA====\n");
+		printf("\n====BIBLIOTECA====\n");
 		printf("1 - Cadastrar livro\n");
 		printf("2 - Consultar livro\n");
 		printf("3 - Emprestar livro\n");
