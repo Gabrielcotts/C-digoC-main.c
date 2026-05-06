@@ -1,109 +1,189 @@
 #include <stdio.h>
+#include <string.h>
 
-int maximo = 50;
+#define MAXIMO 50
 
-int codigoLivro;
-char titulo[50];
-char autor[50];
-int status;
+// Estrutura para armazenar dados do livro
+typedef struct {
+    int codigoLivro;
+    char titulo[50];
+    char autor[50];
+    int status; // 0 = disponível, 1 = emprestado
+} Livro;
 
-int livro = 0;
+// Array global para armazenar livros
+Livro biblioteca[MAXIMO];
+int totalLivros = 0;
 int opcao = -1;
 
+// Declarações das funções
 void cadastrarLivro();
 void consultarLivro();
 void emprestarLivro();
 void devolverLivro();
-void listarLivro();
+void listarLivros();
+void exibirMenu();
 
-int main(){
-
-    while(opcao != 0){
-        printf("\n====BIBLIOTECA====\n");
-        printf("1 - Cadastrar livro\n");
-        printf("2 - Consultar livro\n");
-        printf("3 - Emprestar livro\n");
-        printf("4 - Devolver livro\n");
-        printf("5 - Listar livro\n");
-        printf("0 - Sair\n");
-
+int main() {
+    while (opcao != 0) {
+        exibirMenu();
         scanf("%d", &opcao);
-
+        
         switch (opcao) {
-
-        case 1:
-            cadastrarLivro();
-            break;
-
-        case 2:
-            consultarLivro();
-            break;
-
-        case 3:
-            emprestarLivro();
-            break;
-
-        case 4:
-            devolverLivro();
-            break;
-
-        case 5:
-            listarLivro();
-            break;
-
-        case 0:
-            printf("Encerrando atendimento...\n");
-            break;
-
-        default:
-            printf("Opcao invalida!\n");
+            case 1:
+                cadastrarLivro();
+                break;
+            case 2:
+                consultarLivro();
+                break;
+            case 3:
+                emprestarLivro();
+                break;
+            case 4:
+                devolverLivro();
+                break;
+            case 5:
+                listarLivros();
+                break;
+            case 0:
+                printf("Encerrando atendimento...\n");
+                break;
+            default:
+                printf("Opcao invalida!\n");
         }
     }
     return 0;
 }
 
-void cadastrarLivro(){
+void exibirMenu() {
+    printf("\n===== BIBLIOTECA =====\n");
+    printf("1 - Cadastrar livro\n");
+    printf("2 - Consultar livro\n");
+    printf("3 - Emprestar livro\n");
+    printf("4 - Devolver livro\n");
+    printf("5 - Listar livros\n");
+    printf("0 - Sair\n");
+    printf("Escolha uma opcao: ");
+}
 
-    if(livro >= maximo){
-        printf("Limite máximo de livros cadastrados!\n");
+void cadastrarLivro() {
+    if (totalLivros >= MAXIMO) {
+        printf("Limite maximo de livros cadastrados!\n");
         return;
     }
 
-    printf("Digite as informacoes do livro:\n");
+    printf("\n--- Cadastrar Livro ---\n");
+    printf("Codigo do livro: ");
+    scanf("%d", &biblioteca[totalLivros].codigoLivro);
 
-    printf("Codigo do livro:\n");
-    scanf("%d", &codigoLivro);
+    printf("Titulo: ");
+    scanf(" %[^\n]", biblioteca[totalLivros].titulo);
 
-    printf("Titulo:\n");
-    scanf(" %[^\n]", titulo);
+    printf("Autor: ");
+    scanf(" %[^\n]", biblioteca[totalLivros].autor);
 
-    printf("Autor:\n");
-    scanf(" %[^\n]", autor);
-
-    status = 0;
+    biblioteca[totalLivros].status = 0; // 0 = disponível
 
     printf("Livro cadastrado com sucesso!\n");
-
-    livro++; 
+    totalLivros++;
 }
 
-void consultarLivro(){
+void consultarLivro() {
+    char tituloBusca[50];
+    int encontrado = 0;
 
-    printf("Digite o titulo do livro:\n");
-    scanf(" %[^\n]", titulo);
+    printf("\n--- Consultar Livro ---\n");
+    printf("Digite o titulo do livro: ");
+    scanf(" %[^\n]", tituloBusca);
 
-    printf("Consultando: %s\n", titulo);
+    printf("\nConsultando: %s\n", tituloBusca);
+
+    for (int i = 0; i < totalLivros; i++) {
+        if (strcmp(biblioteca[i].titulo, tituloBusca) == 0) {
+            printf("\nLivro encontrado!\n");
+            printf("Codigo: %d\n", biblioteca[i].codigoLivro);
+            printf("Titulo: %s\n", biblioteca[i].titulo);
+            printf("Autor: %s\n", biblioteca[i].autor);
+            printf("Status: %s\n", biblioteca[i].status == 0 ? "Disponivel" : "Emprestado");
+            encontrado = 1;
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        printf("Livro nao encontrado!\n");
+    }
 }
 
-void emprestarLivro(){
-    printf("Livro emprestado!\n");
+void emprestarLivro() {
+    char tituloBusca[50];
+    int encontrado = 0;
+
+    printf("\n--- Emprestar Livro ---\n");
+    printf("Digite o titulo do livro: ");
+    scanf(" %[^\n]", tituloBusca);
+
+    for (int i = 0; i < totalLivros; i++) {
+        if (strcmp(biblioteca[i].titulo, tituloBusca) == 0) {
+            if (biblioteca[i].status == 0) {
+                biblioteca[i].status = 1;
+                printf("Livro emprestado com sucesso!\n");
+                encontrado = 1;
+            } else {
+                printf("Livro nao esta disponivel para emprestimo!\n");
+                encontrado = 1;
+            }
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        printf("Livro nao encontrado!\n");
+    }
 }
 
-void devolverLivro(){
-    printf("Livro devolvido!\n");
+void devolverLivro() {
+    char tituloBusca[50];
+    int encontrado = 0;
+
+    printf("\n--- Devolver Livro ---\n");
+    printf("Digite o titulo do livro: ");
+    scanf(" %[^\n]", tituloBusca);
+
+    for (int i = 0; i < totalLivros; i++) {
+        if (strcmp(biblioteca[i].titulo, tituloBusca) == 0) {
+            if (biblioteca[i].status == 1) {
+                biblioteca[i].status = 0;
+                printf("Livro devolvido com sucesso!\n");
+                encontrado = 1;
+            } else {
+                printf("Este livro nao estava emprestado!\n");
+                encontrado = 1;
+            }
+            break;
+        }
+    }
+
+    if (!encontrado) {
+        printf("Livro nao encontrado!\n");
+    }
 }
 
-void listarLivro(){
-    printf("Titulo: %s\n", titulo);
-    printf("Autor: %s\n", autor);
+void listarLivros() {
+    if (totalLivros == 0) {
+        printf("\nNenhum livro cadastrado!\n");
+        return;
+    }
+
+    printf("\n--- Listar Livros ---\n");
+    printf("Total de livros: %d\n\n", totalLivros);
+
+    for (int i = 0; i < totalLivros; i++) {
+        printf("=== Livro %d ===\n", i + 1);
+        printf("Codigo: %d\n", biblioteca[i].codigoLivro);
+        printf("Titulo: %s\n", biblioteca[i].titulo);
+        printf("Autor: %s\n", biblioteca[i].autor);
+        printf("Status: %s\n", biblioteca[i].status == 0 ? "Disponivel" : "Emprestado");
+        printf("\n");
+    }
 }
