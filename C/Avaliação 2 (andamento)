@@ -1,216 +1,32 @@
 #include <stdio.h>
 #include <string.h>
 
-#define MAXIMO 50
+#define MAX_LIVROS 100
 
-// Estrutura para armazenar dados do livro
+
 typedef struct {
-    int codigoLivro;
-    char titulo[50];
-    char autor[50];
-    int status; // 0 = disponível, 1 = emprestado
+    int codigo;
+    char titulo[100];
+    char autor[100];
+    int status;
 } Livro;
 
-// Array global para armazenar livros
-Livro biblioteca[MAXIMO];
-int totalLivros = 0;
-int opcao = -1;
+Livro estoque[MAX_LIVROS];
+int livroTotal = 0;
 
-// Declarações das funções
-void cadastrarLivro();
-void consultarLivro();
-void emprestarLivro();
-void devolverLivro();
-void listarLivros();
-void exibirMenu();
-void salvarDados();
-void carregarDados();
-
-int main() {
-    carregarDados(); // Carrega dados do arquivo ao iniciar
-    
-    while (opcao != 0) {
-        exibirMenu();
-        scanf("%d", &opcao);
-        
-        switch (opcao) {
-            case 1:
-                cadastrarLivro();
-                salvarDados();
-                break;
-            case 2:
-                consultarLivro();
-                break;
-            case 3:
-                emprestarLivro();
-                salvarDados();
-                break;
-            case 4:
-                devolverLivro();
-                salvarDados();
-                break;
-            case 5:
-                listarLivros();
-                break;
-            case 0:
-                printf("Encerrando atendimento...\n");
-                break;
-            default:
-                printf("Opcao invalida!\n");
+int buscarLivro(int codigo) {
+    int i;
+    for (i = 0; i < livroTotal; i++) {
+        if (estoque[i].codigo == codigo) {
+            return i;
         }
     }
-    return 0;
-}
-
-void exibirMenu() {
-    printf("\n===== BIBLIOTECA =====\n");
-    printf("1 - Cadastrar livro\n");
-    printf("2 - Consultar livro\n");
-    printf("3 - Emprestar livro\n");
-    printf("4 - Devolver livro\n");
-    printf("5 - Listar livros\n");
-    printf("0 - Sair\n");
-    printf("Escolha uma opcao: ");
-}
-
-void cadastrarLivro() {
-    if (totalLivros >= MAXIMO) {
-        printf("Limite maximo de livros cadastrados!\n");
-        return;
-    }
-
-    printf("\n--- Cadastrar Livro ---\n");
-    printf("Codigo do livro: ");
-    scanf("%d", &biblioteca[totalLivros].codigoLivro);
-
-    printf("Titulo: ");
-    scanf(" %[^\n]", biblioteca[totalLivros].titulo);
-
-    printf("Autor: ");
-    scanf(" %[^\n]", biblioteca[totalLivros].autor);
-
-    biblioteca[totalLivros].status = 0; // 0 = disponível
-
-    printf("Livro cadastrado com sucesso!\n");
-    totalLivros++;
-}
-
-void consultarLivro() {
-    char tituloBusca[50];
-    int encontrado = 0;
-    int i = 0;
-
-    printf("\n--- Consultar Livro ---\n");
-    printf("Digite o titulo do livro: ");
-    scanf(" %[^\n]", tituloBusca);
-
-    printf("\nConsultando: %s\n", tituloBusca);
-
-    for (i = 0; i < totalLivros; i++) {
-        if (strcmp(biblioteca[i].titulo, tituloBusca) == 0) {
-            printf("\nLivro encontrado!\n");
-            printf("Codigo: %d\n", biblioteca[i].codigoLivro);
-            printf("Titulo: %s\n", biblioteca[i].titulo);
-            printf("Autor: %s\n", biblioteca[i].autor);
-            if (biblioteca[i].status == 0) {
-                printf("Status: Disponivel\n");
-            } else {
-                printf("Status: Emprestado\n");
-            }
-            encontrado = 1;
-            break;
-        }
-    }
-
-    if (!encontrado) {
-        printf("Livro nao encontrado!\n");
-    }
-}
-
-void emprestarLivro() {
-    char tituloBusca[50];
-    int encontrado = 0;
-    int i = 0;
-
-    printf("\n--- Emprestar Livro ---\n");
-    printf("Digite o titulo do livro: ");
-    scanf(" %[^\n]", tituloBusca);
-
-    for (i = 0; i < totalLivros; i++) {
-        if (strcmp(biblioteca[i].titulo, tituloBusca) == 0) {
-            if (biblioteca[i].status == 0) {
-                biblioteca[i].status = 1;
-                printf("Livro emprestado com sucesso!\n");
-                encontrado = 1;
-            } else {
-                printf("Livro nao esta disponivel para emprestimo!\n");
-                encontrado = 1;
-            }
-            break;
-        }
-    }
-
-    if (!encontrado) {
-        printf("Livro nao encontrado!\n");
-    }
-}
-
-void devolverLivro() {
-    char tituloBusca[50];
-    int encontrado = 0;
-    int i = 0;
-
-    printf("\n--- Devolver Livro ---\n");
-    printf("Digite o titulo do livro: ");
-    scanf(" %[^\n]", tituloBusca);
-
-    for (i = 0; i < totalLivros; i++) {
-        if (strcmp(biblioteca[i].titulo, tituloBusca) == 0) {
-            if (biblioteca[i].status == 1) {
-                biblioteca[i].status = 0;
-                printf("Livro devolvido com sucesso!\n");
-                encontrado = 1;
-            } else {
-                printf("Este livro nao estava emprestado!\n");
-                encontrado = 1;
-            }
-            break;
-        }
-    }
-
-    if (!encontrado) {
-        printf("Livro nao encontrado!\n");
-    }
-}
-
-void listarLivros() {
-    int i = 0;
-    
-    if (totalLivros == 0) {
-        printf("\nNenhum livro cadastrado!\n");
-        return;
-    }
-
-    printf("\n--- Listar Livros ---\n");
-    printf("Total de livros: %d\n\n", totalLivros);
-
-    for (i = 0; i < totalLivros; i++) {
-        printf("=== Livro %d ===\n", i + 1);
-        printf("Codigo: %d\n", biblioteca[i].codigoLivro);
-        printf("Titulo: %s\n", biblioteca[i].titulo);
-        printf("Autor: %s\n", biblioteca[i].autor);
-        if (biblioteca[i].status == 0) {
-            printf("Status: Disponivel\n");
-        } else {
-            printf("Status: Emprestado\n");
-        }
-        printf("\n");
-    }
+    return -1;
 }
 
 void salvarDados() {
     FILE *arquivo;
-    int i = 0;
+    int i;
     
     arquivo = fopen("biblioteca.txt", "w");
     
@@ -220,61 +36,199 @@ void salvarDados() {
     }
     
     fprintf(arquivo, "REGISTRO DE LIVROS DA BIBLIOTECA\n");
-    fprintf(arquivo, "================================\n\n");
-    fprintf(arquivo, "Total de livros: %d\n\n", totalLivros);
     
-    for (i = 0; i < totalLivros; i++) {
-        fprintf(arquivo, "=== Livro %d ===\n", i + 1);
-        fprintf(arquivo, "Codigo: %d\n", biblioteca[i].codigoLivro);
-        fprintf(arquivo, "Titulo: %s\n", biblioteca[i].titulo);
-        fprintf(arquivo, "Autor: %s\n", biblioteca[i].autor);
-        
-        if (biblioteca[i].status == 0) {
-            fprintf(arquivo, "Status: Disponivel\n");
-        } else {
-            fprintf(arquivo, "Status: Emprestado\n");
-        }
-        fprintf(arquivo, "\n");
+    fprintf(arquivo, "\nTotal de livros: %d\n\n", livroTotal);
+    
+    for (i = 0; i < livroTotal; i++) {
+        fprintf(arquivo, "Codigo: %d\n", estoque[i].codigo);
+        fprintf(arquivo, "Titulo: %s\n", estoque[i].titulo);
+        fprintf(arquivo, "Autor: %s\n", estoque[i].autor);
+        fprintf(arquivo, "Status: %s\n\n", estoque[i].status == 0 ? "Disponivel" : "Emprestado");
     }
     
     fclose(arquivo);
-    printf("Dados salvos com sucesso em 'biblioteca.txt'!\n");
 }
 
 void carregarDados() {
     FILE *arquivo;
-    int i = 0;
+    int i;
     char linha[100];
     
     arquivo = fopen("biblioteca.txt", "r");
     
     if (arquivo == NULL) {
-        printf("Arquivo de dados nao encontrado. Iniciando novo registro.\n");
-        totalLivros = 0;
+        livroTotal = 0;
         return;
-    }
+   }
     
-    // Pula as linhas de cabeçalho
-    fgets(linha, sizeof(linha), arquivo);
-    fgets(linha, sizeof(linha), arquivo);
+
+    fscanf(arquivo, "Total de livros: %d\n", &livroTotal);
     fgets(linha, sizeof(linha), arquivo);
     
-    // Lê o total de livros
-    fscanf(arquivo, "Total de livros: %d\n", &totalLivros);
-    fgets(linha, sizeof(linha), arquivo); // pula quebra de linha
-    
-    // Carrega os dados de cada livro
-    for (i = 0; i < totalLivros; i++) {
-        fgets(linha, sizeof(linha), arquivo); // pula "=== Livro X ==="
+    for (i = 0; i < livroTotal; i++) {
+        fscanf(arquivo, "Codigo: %d\n", &estoque[i].codigo);
+        fscanf(arquivo, "Titulo: %[^\n]\n", estoque[i].titulo);
+        fscanf(arquivo, "Autor: %[^\n]\n", estoque[i].autor);
         
-        fscanf(arquivo, "Codigo: %d\n", &biblioteca[i].codigoLivro);
-        fgets(linha, sizeof(linha), arquivo); // pula titulo (vem com espaços)
-        fscanf(arquivo, "Titulo: %[^\n]\n", biblioteca[i].titulo);
-        fscanf(arquivo, "Autor: %[^\n]\n", biblioteca[i].autor);
-        fscanf(arquivo, "Status: %d\n", &biblioteca[i].status);
-        fgets(linha, sizeof(linha), arquivo); // pula quebra de linha
+        fgets(linha, sizeof(linha), arquivo);
+        if (strstr(linha, "Disponivel") != NULL) {
+            estoque[i].status = 0;
+        } else {
+            estoque[i].status = 1;
+        }
+        
+        fgets(linha, sizeof(linha), arquivo);
     }
     
     fclose(arquivo);
-    printf("Dados carregados com sucesso!\n");
+}
+
+void cadastrarLivro() {
+    if (livroTotal >= MAX_LIVROS) {
+        printf("\nERRO! Limite de %d livros atingido!\n", MAX_LIVROS);
+        return;
+    }
+
+    int codigoDoLivro;
+    printf("\n==== CADASTRO DE LIVRO ====\n");
+    printf("Digite o codigo do livro: ");
+    scanf("%d", &codigoDoLivro);
+
+    if (buscarLivro(codigoDoLivro) != -1) {
+        printf("ERRO! Ja existe um livro com este código!\n");
+        return;
+    }
+
+    estoque[livroTotal].codigo = codigoDoLivro;
+
+    printf("Digite o titulo do livro: ");
+    scanf(" %[^\n]", estoque[livroTotal].titulo);
+
+    printf("Digite o autor do livro: ");
+    scanf(" %[^\n]", estoque[livroTotal].autor);
+
+    estoque[livroTotal].status = 0;
+    livroTotal++;
+
+    printf("Livro foi cadastrado com sucesso!\n");
+    salvarDados();
+}
+
+void consultarLivro() {
+    int codigo;
+    printf("\n==== CONSULTAR LIVRO ====\n");
+    printf("Digite o codigo do livro: ");
+    scanf("%d", &codigo);
+
+    int lista = buscarLivro(codigo);
+
+    if (lista == -1) {
+        printf("AVISO: O livro com o codigo %d nao foi encontrado.\n", codigo);
+    } else {
+        printf("\nDetalhes do Livro:\n");
+        printf("Codigo: %d\n", estoque[lista].codigo);
+        printf("Titulo: %s\n", estoque[lista].titulo);
+        printf("Autor : %s\n", estoque[lista].autor);
+        printf("Status: %s\n", estoque[lista].status == 0 ? "Disponivel" : "Emprestado");
+    }
+}
+
+void emprestarLivro() {
+    int codigo;
+    printf("\n====EMPRESTIMO DE LIVRO====\n");
+    printf("Digite o codigo do livro: ");
+    scanf("%d", &codigo);
+
+    int lista = buscarLivro(codigo);
+
+    if (lista == -1) {
+        printf("Livro nao encontrado!\n");
+    } else if (estoque[lista].status == 1) {
+        printf("Este livro nao esta disponivel!\n");
+    } else {
+        estoque[lista].status = 1;
+        printf("Emprestimo do livro '%s' realizado com sucesso!\n", estoque[lista].titulo);
+        salvarDados();
+    }
+}
+
+void devolverLivro() {
+    int codigo;
+    printf("\n==== DEVOLUCAO DE LIVRO ====\n");
+    printf("Digite o codigo do livro: ");
+    scanf("%d", &codigo);
+
+    int lista = buscarLivro(codigo);
+
+    if (lista == -1) {
+        printf("Livro nao encontrado.\n");
+    } else if (estoque[lista].status == 0) {
+        printf("Este livro ja esta na biblioteca (Disponivel)!\n");
+    } else {
+        estoque[lista].status = 0;
+        printf("Devolucao do livro '%s' realizada com sucesso!\n", estoque[lista].titulo);
+        salvarDados();
+    }
+}
+
+void listarLivros() {
+    int i;
+    printf("\n==== LISTAGEM DO ESTOQUE ====\n");
+    if (livroTotal == 0) {
+        printf("Nenhum livro cadastrado na biblioteca ainda.\n");
+        return;
+    }
+
+    for (i = 0; i < livroTotal; i++) {
+        printf("\n");
+        printf("Codigo: %d\n", estoque[i].codigo);
+        printf("Titulo: %s\n", estoque[i].titulo);
+        printf("Autor : %s\n", estoque[i].autor);
+        printf("Status: %s\n", estoque[i].status == 0 ? "Disponivel" : "Emprestado");
+    }
+    printf("\n");
+    printf("Total de livros cadastrados: %d\n", livroTotal);
+}
+
+int main() {
+    int opcao;
+
+    carregarDados();
+    
+  do{
+        printf("\n===== BIBLIOTECA =====\n");
+        printf("1 - Cadastrar livro\n");
+        printf("2 - Consultar livro\n");
+        printf("3 - Emprestar livro\n");
+        printf("4 - Devolver livro\n");
+        printf("5 - Listar livros\n");
+        printf("0 - Sair\n");
+        printf("Escolha uma opcao: ");
+        scanf("%d", &opcao);
+
+        switch (opcao) {
+            case 1:
+                cadastrarLivro();
+                break;
+            case 2:
+                consultarLivro();
+                break;
+            case 3:
+                emprestarLivro();
+                break;
+            case 4:
+                devolverLivro();
+                break;
+            case 5:
+                listarLivros();
+                break;
+            case 0:
+                printf("\nEncerrando o sistema...\n");
+                break;
+            default:
+                printf("\nOpcao invalida! Tente novamente.\n");
+        }
+    } while (opcao != 0);
+
+    return 0;
 }
