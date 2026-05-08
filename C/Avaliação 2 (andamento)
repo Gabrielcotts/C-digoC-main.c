@@ -36,7 +36,6 @@ void salvarDados() {
     }
     
     fprintf(arquivo, "REGISTRO DE LIVROS DA BIBLIOTECA\n");
-    
     fprintf(arquivo, "\nTotal de livros: %d\n\n", livroTotal);
     
     for (i = 0; i < livroTotal; i++) {
@@ -45,7 +44,6 @@ void salvarDados() {
         fprintf(arquivo, "Autor: %s\n", estoque[i].autor);
         fprintf(arquivo, "Status: %s\n\n", estoque[i].status == 0 ? "Disponivel" : "Emprestado");
     }
-    
     fclose(arquivo);
 }
 
@@ -60,9 +58,7 @@ void carregarDados() {
         livroTotal = 0;
         return;
    }
-    
-
-    fscanf(arquivo, "Total de livros: %d\n", &livroTotal);
+      fscanf(arquivo, "Total de livros: %d\n", &livroTotal);
     fgets(linha, sizeof(linha), arquivo);
     
     for (i = 0; i < livroTotal; i++) {
@@ -79,7 +75,6 @@ void carregarDados() {
         
         fgets(linha, sizeof(linha), arquivo);
     }
-    
     fclose(arquivo);
 }
 
@@ -91,7 +86,7 @@ void cadastrarLivro() {
 
     int codigoDoLivro;
     printf("\n==== CADASTRO DE LIVRO ====\n");
-    printf("Digite o codigo do livro: ");
+    printf("Digite o codigo do livro (apenas numeros): ");
     scanf("%d", &codigoDoLivro);
 
     if (buscarLivro(codigoDoLivro) != -1) {
@@ -123,7 +118,7 @@ void consultarLivro() {
     int lista = buscarLivro(codigo);
 
     if (lista == -1) {
-        printf("AVISO: O livro com o codigo %d nao foi encontrado.\n", codigo);
+        printf("AVISO: O livro com o código %d nao foi encontrado.\n", codigo);
     } else {
         printf("\nDetalhes do Livro:\n");
         printf("Codigo: %d\n", estoque[lista].codigo);
