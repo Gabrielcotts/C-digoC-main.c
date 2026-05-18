@@ -1,0 +1,23 @@
+#include <Stdio.h>
+
+#define MAX 100
+
+typedef struct {
+		int matricula;
+		char nome[100];
+		char curso[100];
+		float notaFinal;
+} Matricula;
+
+int main(){
+	Matricula matricula[MAX];
+	
+	int quantidade;
+	int i; 
+	
+	prinf("Quantos alunos deseja cadastrar? ");
+	scanf("%d", &quantidade);
+	
+	
+	
+}
